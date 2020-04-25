@@ -2,66 +2,89 @@ class Main extends React.Component {
     stepSize = 5;
     rightEnd = 275;
     leftEnd = 15;
+
+    // will be true if running on a mobile device
+    isMobile = navigator.userAgent.indexOf( "Mobile" ) !== -1 ||
+               navigator.userAgent.indexOf( "iPhone" ) !== -1 ||
+               navigator.userAgent.indexOf( "Android" ) !== -1 ||
+               navigator.userAgent.indexOf( "Windows Phone" ) !== -1 ;
+
     constructor(props) {
         super(props);
         this.state = {marginLeft : this.leftEnd, currentMenuElement: Welcome,
-            menuOpen: false, lastMenu: "WELCOME"};
+            menuOpen: false, lastMenu: "WELCOME", isFirst: true};
         this._handleKeyDown = this._handleKeyDown.bind(this);
+        this._handleClick = this._handleClick.bind(this);
+        this.openMenu = this.openMenu.bind(this);
     }
 
     _mapMenuNameToClass(name) {
         switch (name) {
             case "ME": return Me;
-            case "BLOG": return Blog;
+            case "BOOKS": return Books;
             case "PLAYGROUND": return Playground;
         }
     }
+
+    _handleClick(e) {
+        let liElement  = e.target;
+        let magicOffset = 30;
+        let marginLeft = liElement.offsetLeft - magicOffset;
+        this.setState((state, props) => Object({marginLeft}));
+        this.openMenu(marginLeft);
+    }
+
+    openMenu(marginLeft) {
+        let mainWrapperElement = document.getElementById("mainWrapper");
+
+        let menuElement = mainWrapperElement.children[1];
+        let ulElement = menuElement.children[0];
+        let liElements = ulElement.children;
+        let liOffset = menuElement.offsetLeft + ulElement.offsetLeft;
+
+        let greedlingOffset = liOffset + liElements[0].offsetLeft;
+        let greedlingPos = greedlingOffset + marginLeft;
+        for (let element of liElements) {
+            let leftPos = element.offsetLeft + liOffset;
+            let rightPos = leftPos + element.offsetWidth;
+            if ( greedlingPos > leftPos && greedlingPos < rightPos ) {
+                let menuName = element.innerText;
+                let menuType = this._mapMenuNameToClass(menuName);
+                if (this.state.menuOpen === false || this.state.lastMenu !== menuName) {
+                    this.setState((state,props) => Object({ currentMenuElement: menuType,
+                        menuOpen: true,
+                        lastMenu: menuName }));
+                } else {
+                    this.setState((state,props) => Object({ currentMenuElement: Empty,
+                        menuOpen: false,
+                        lastMenu: menuName}));
+                }
+                break;
+            }
+        }
+    }
+
 
     _handleKeyDown(e) {
         let newKey = e.keyCode;
         switch(newKey) {
             case 39:
             case 68:
-                this.setState({marginLeft : this.state.marginLeft +=
+                this.setState((state,props) => Object({marginLeft : this.state.marginLeft +=
                                             this.state.marginLeft > this.rightEnd ?
-                                            0 : this.stepSize});
+                                            0 : this.stepSize}));
                 break;
 
             case 37:
             case 65:
-                this.setState({marginLeft : this.state.marginLeft +=
+                this.setState((state,props) => Object({marginLeft : this.state.marginLeft +=
                                             this.state.marginLeft > this.leftEnd ?
-                                            -this.stepSize : 0});
+                                            -this.stepSize : 0}));
                 break;
 
             case 13:
-                let mainWrapperElement = document.getElementById("mainWrapper");
-
-                let menuElement = mainWrapperElement.children[1];
-                let ulElement = menuElement.children[0];
-                let liElements = ulElement.children;
-                let liOffset = menuElement.offsetLeft + ulElement.offsetLeft;
-
-                let greedlingOffset = liOffset + liElements[0].offsetLeft;
-                let greedlingPos = greedlingOffset + this.state.marginLeft;
-                    for (let element of liElements) {
-                        let leftPos = element.offsetLeft + liOffset;
-                        let rightPos = leftPos + element.offsetWidth;
-                        if ( greedlingPos > leftPos && greedlingPos < rightPos ) {
-                            let menuName = element.innerText;
-                            let menuType = this._mapMenuNameToClass(menuName);
-                            if (this.state.menuOpen === false || this.state.lastMenu !== menuName) {
-                                this.setState({ currentMenuElement: menuType,
-                                                menuOpen: true,
-                                                lastMenu: menuName });
-                            } else {
-                                this.setState({ currentMenuElement: Empty,
-                                                menuOpen: false,
-                                                lastMenu: menuName});
-                            }
-                            break;
-                        }
-                    }
+                this.setState((state,props) => Object({isFirst : false}));
+                this.openMenu(this.state.marginLeft);
                 break;
         }
     }
@@ -76,12 +99,31 @@ class Main extends React.Component {
 
 
     render() {
-        return React.createElement('div', {id: 'mainWrapper'},
-            React.createElement(Greedling, {marginLeft: this.state.marginLeft}, null),
-            React.createElement(Menu, null, null),
-            React.createElement(this.state.currentMenuElement, null, null)
-            );
+        if (this.isMobile === true) {
+            return React.createElement('div', {id: 'mainWrapper'},
+                    React.createElement(Me, null, null)
+                    );
+        } else if (this.state.isFirst === true) {
+            return React.createElement('div', {id: 'mainWrapper'},
+                    React.createElement(Greedling, {marginLeft: this.state.marginLeft}, null),
+                    React.createElement('div', {id: 'key-nav'},
+                        React.createElement('span', {className: 'btn'}, '←Left'),
+                        React.createElement('span', {className: 'btn'}, '↵Enter'),
+                        React.createElement('span', {className: 'btn'}, 'Right→')
+                        ),
+                    React.createElement(Menu, {onClick:this._handleClick}, null),
+                    React.createElement(this.state.currentMenuElement, null, null)
+                    );
+        } else {
+            console.log('hej');
+            return React.createElement('div', {id: 'mainWrapper'},
+                    React.createElement(Greedling, {marginLeft: this.state.marginLeft}, null),
+                    React.createElement(Menu, {onClick:this._handleClick}, null),
+                    React.createElement(this.state.currentMenuElement, null, null)
+                    );
+        }
     }
 }
+
 ReactDOM.render(React.createElement(Main),
                 document.getElementById('main'));

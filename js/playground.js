@@ -3,7 +3,8 @@ class Playground extends React.Component {
                                            
     render() {
         return React.createElement('div', {id: 'playground'},
-                React.createElement('div', {dangerouslySetInnerHTML: {__html: this.html}}, null)
+                React.createElement('div', {dangerouslySetInnerHTML: {__html: this.html}}, null),
+                React.createElement(Pomodoro, null, null)
                );
     }
 }

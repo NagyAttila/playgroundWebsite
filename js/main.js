@@ -30,14 +30,13 @@ class Main extends React.Component {
         let liElement  = e.target;
         let magicOffset = 30;
         let marginLeft = liElement.offsetLeft - magicOffset;
-        this.setState((state, props) => Object({marginLeft}));
+        this.setState((state, props) => Object({marginLeft, isFirst: false}));
         this.openMenu(marginLeft);
     }
 
     openMenu(marginLeft) {
-        let mainWrapperElement = document.getElementById("mainWrapper");
-
-        let menuElement = mainWrapperElement.children[1];
+        let menuElement = document.getElementById("menu");
+        // let menuElement = mainWrapperElement.children[1];
         let ulElement = menuElement.children[0];
         let liElements = ulElement.children;
         let liOffset = menuElement.offsetLeft + ulElement.offsetLeft;
@@ -100,27 +99,36 @@ class Main extends React.Component {
 
     render() {
         if (this.isMobile === true) {
-            return React.createElement('div', {id: 'mainWrapper'},
-                    React.createElement(Me, null, null)
-                    );
-        } else if (this.state.isFirst === true) {
-            return React.createElement('div', {id: 'mainWrapper'},
-                    React.createElement(Greedling, {marginLeft: this.state.marginLeft}, null),
-                    React.createElement('div', {id: 'key-nav'},
-                        React.createElement('span', {className: 'btn'}, '←Left'),
-                        React.createElement('span', {className: 'btn'}, '↵Enter'),
-                        React.createElement('span', {className: 'btn'}, 'Right→')
-                        ),
-                    React.createElement(Menu, {onClick:this._handleClick}, null),
-                    React.createElement(this.state.currentMenuElement, null, null)
-                    );
+            if (this.state.isFirst === true) {
+                let disclaimer = "This page is much nicer on a laptop. Anyway, there is some simple content for you if you are fine with it.";
+                return React.createElement('div', {id: 'mobileDisclaimer'},
+                        React.createElement('h2', null, disclaimer),
+                        React.createElement('h1', {className: 'btn', style:{margin:"auto"}, onClick:this._handleClick}, "Click Here")
+                        );
+            } else {
+                return React.createElement('div', {id: 'mainWrapper'},
+                        React.createElement(Me, null, null)
+                        );
+            }
         } else {
-            console.log('hej');
-            return React.createElement('div', {id: 'mainWrapper'},
-                    React.createElement(Greedling, {marginLeft: this.state.marginLeft}, null),
-                    React.createElement(Menu, {onClick:this._handleClick}, null),
-                    React.createElement(this.state.currentMenuElement, null, null)
-                    );
+            if (this.state.isFirst === true) {
+                return React.createElement('div', {id: 'mainWrapper'},
+                        React.createElement(Greedling, {marginLeft: this.state.marginLeft}, null),
+                        React.createElement('div', {id: 'key-nav'},
+                            React.createElement('span', {className: 'btn'}, '←Left'),
+                            React.createElement('span', {className: 'btn'}, '↵Enter'),
+                            React.createElement('span', {className: 'btn'}, 'Right→')
+                            ),
+                        React.createElement(Menu, {onClick:this._handleClick}, null),
+                        React.createElement(this.state.currentMenuElement, null, null)
+                        );
+            } else {
+                return React.createElement('div', {id: 'mainWrapper'},
+                        React.createElement(Greedling, {marginLeft: this.state.marginLeft}, null),
+                        React.createElement(Menu, {onClick:this._handleClick}, null),
+                        React.createElement(this.state.currentMenuElement, null, null)
+                        );
+            }
         }
     }
 }

@@ -138,6 +138,12 @@ class Pomodoro extends React.Component {
     return number.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
   }
 
+  componentWillUnmount() {
+      this.reset();
+      delete this.bell;
+
+  }
+
   render() {
       return React.createElement('div', {id:'pomodoro'},
               React.createElement('h1', null, "Pomodoro Clock"),

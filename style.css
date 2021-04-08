@@ -2,6 +2,7 @@
 
 @background-color: #281030;
 @font-color: #DC962D;
+@hover: #339933;
 
 .all-select {
     user-select: all;
@@ -24,6 +25,11 @@ body {
     pre {
         line-height: 1;
     }
+
+    a {
+        color : @font-color;
+    }
+
 }
 
 #me {
@@ -35,6 +41,9 @@ body {
         margin-top: 0;
         margin-bottom: 0;
         white-space: pre;
+        a:hover, span:hover {
+            color : @hover;
+        }
     }
 }
 
@@ -46,7 +55,7 @@ body {
     }
 
     li:hover {
-        color: #339933;
+        color: @hover;
     }
 
     margin-top: -15px;
@@ -78,7 +87,7 @@ body {
 #pomodoro {
     text-align: center;
     background-color: lighten(@background-color, 5);
-    color: #DC962D;
+    color: @font-color;
     /* height: 300px;*/
     width: 400px;
     border-radius: 15px;
@@ -127,13 +136,15 @@ body {
         padding-right: 10px;
         padding-top: 0px;
         padding-bottom: 0px;
+    }
 
+    .button:hover, .increment:hover, .decrement:hover {
+        color : @hover;
     }
 
     .decrement {
         margin-top: -10px;
     }
-
 }
 
 #mobileDisclaimer {
@@ -141,4 +152,3 @@ body {
     text-align: center;
     margin: auto;
 }
-

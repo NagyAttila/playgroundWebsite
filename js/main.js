@@ -1,6 +1,7 @@
 class Main extends React.Component {
     stepSize = 5;
-    rightEnd = 275;
+    rightEnd = 200;
+    //rightEnd = 275;
     leftEnd = 15;
 
     // will be true if running on a mobile device
@@ -62,7 +63,6 @@ class Main extends React.Component {
             }
         }
     }
-
 
     _handleKeyDown(e) {
         let newKey = e.keyCode;

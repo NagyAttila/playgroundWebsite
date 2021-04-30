@@ -1,10 +1,9 @@
 class Greedling extends React.Component {
-    src = 'https://vignette.wikia.nocookie.net/kingdomthegame/images/6/64/Greedling_h.gif/revision/latest?cb=20190510224339';
-    gif = "Greedling_h.gif";
-    dataSrc = 'https://vignette.wikia.nocookie.net/kingdomthegame/images/6/64/Greedling_h.gif/revision/latest?cb=20190510224339';
-
     constructor(props) {
         super(props);
+        this.src = 'https://vignette.wikia.nocookie.net/kingdomthegame/images/6/64/Greedling_h.gif/revision/latest?cb=20190510224339';
+        this.gif = "Greedling_h.gif";
+        this.dataSrc = 'https://vignette.wikia.nocookie.net/kingdomthegame/images/6/64/Greedling_h.gif/revision/latest?cb=20190510224339';
     }
 
     render() {

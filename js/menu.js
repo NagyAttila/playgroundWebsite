@@ -1,6 +1,9 @@
 class Menu extends React.Component {
-    items = ['ME', 'PLAYGROUND'];
-    //items = ['ME', 'BOOKS', 'PLAYGROUND'];
+    constructor() {
+        super()
+        this.items = ['ME', 'PLAYGROUND'];
+        //items = ['ME', 'BOOKS', 'PLAYGROUND'];
+    }
 
     render() {
         let element = React.createElement( 'div', {id:"menu"},

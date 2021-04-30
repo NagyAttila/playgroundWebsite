@@ -1,22 +1,24 @@
 class Main extends React.Component {
-    stepSize = 5;
-    rightEnd = 200;
-    //rightEnd = 275;
-    leftEnd = 15;
-
-    // will be true if running on a mobile device
-    isMobile = navigator.userAgent.indexOf( "Mobile" ) !== -1 ||
-               navigator.userAgent.indexOf( "iPhone" ) !== -1 ||
-               navigator.userAgent.indexOf( "Android" ) !== -1 ||
-               navigator.userAgent.indexOf( "Windows Phone" ) !== -1 ;
 
     constructor(props) {
         super(props);
+        this.stepSize = 5;
+        this.rightEnd = 200;
+        //this.rightEnd = 275;
+        this.leftEnd = 15;
+
         this.state = {marginLeft : this.leftEnd, currentMenuElement: Welcome,
             menuOpen: false, lastMenu: "WELCOME", isFirst: true};
         this._handleKeyDown = this._handleKeyDown.bind(this);
         this._handleClick = this._handleClick.bind(this);
         this.openMenu = this.openMenu.bind(this);
+
+        // will be true if running on a mobile device
+        this.isMobile = navigator.userAgent.indexOf( "Mobile" ) !== -1 ||
+            navigator.userAgent.indexOf( "iPhone" ) !== -1 ||
+            navigator.userAgent.indexOf( "Android" ) !== -1 ||
+            navigator.userAgent.indexOf( "Windows Phone" ) !== -1 ;
+
     }
 
     _mapMenuNameToClass(name) {
@@ -135,3 +137,4 @@ class Main extends React.Component {
 
 ReactDOM.render(React.createElement(Main),
                 document.getElementById('main'));
+// document.body.remove();

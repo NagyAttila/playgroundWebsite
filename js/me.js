@@ -1,5 +1,7 @@
 class Me extends React.Component {
-    html = `
+    constructor() {
+        super()
+        this.html = `
     <p>I have:</p>
     <p>╠ 2020, Apr - Now: work experience @ Ericsson as HiQ Consultant, Sweden,</p>
     <p>║ ╠ in: Telecommunication,</p>
@@ -55,8 +57,9 @@ class Me extends React.Component {
     <p>╠ <a href="https://www.linkedin.com/in/attila-nagy-04701066/">LinkedIn</a>,</p>
     <p>╠ <a href="https://codepen.io/attila-nagy-the-sasster">CodePen</a>,</p>
     <p>╠ <a href="https://github.com/NagyAttila">GitHub</a>,</p>
-    <p>╚ <a href="https://github.com/NagyAttila/CV/blob/2cd426560779b4f1b600514aa74db36b149fcf17/CV_Attila_Nagy.pdf">Resume</a>.</p>
+    <p>╚ <a href="https://github.com/NagyAttila/CV/blob/master/CV_Attila_Nagy.pdf">Resume</a>.</p>
         `
+    }
 
     render() {
         return React.createElement('div', {id: 'me'},
